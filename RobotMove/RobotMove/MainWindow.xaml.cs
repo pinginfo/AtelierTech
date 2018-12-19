@@ -43,7 +43,7 @@ namespace RobotMove
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            robot = new Robot("COM7");
+            robot = new Robot("COM5");
         }
     }
 }
