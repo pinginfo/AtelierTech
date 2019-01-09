@@ -26,62 +26,39 @@ namespace RobotMove
     /// </summary>
     public partial class MainWindow : Window
     {
-        IRobot robot;
-        AnalysePicture analyse;
-        private FilterInfoCollection VideoCaptureDevices;
-        private VideoCaptureDevice FinalVideoSource;
+        private IRobot robot;
+        private AnalysePicture analyse;
+        private VideoCaptureDevice videoCaptureDevice;
 
-        public MainWindow()
+        public MainWindow(IRobot robot, VideoCaptureDevice videoCaptureDevice)
         {
             InitializeComponent();
+            this.robot = robot;
+            this.videoCaptureDevice = videoCaptureDevice;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            robot = new Robot("COM7");
             analyse = new AnalysePicture();
-            VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            foreach (FilterInfo VideoCaptureDevice in VideoCaptureDevices)
-            {
-                cbxCameras.Items.Add(VideoCaptureDevice.Name);
-            }
-            cbxCameras.SelectedIndex = 0;
+            VideoStart();
         }
 
         private void VideoStart()
         {
-            FinalVideoSource = new VideoCaptureDevice(VideoCaptureDevices[cbxCameras.SelectedIndex].MonikerString);
-            FinalVideoSource.NewFrame += new NewFrameEventHandler(FinalVideoSource_NewFrame);
-            FinalVideoSource.Start();
+            videoCaptureDevice.NewFrame += new NewFrameEventHandler(FinalVideoSource_NewFrame);
+            videoCaptureDevice.Start();
         }
 
         /// <summary>
-        /// Method for convert bitmap to bitmapImage 
+        /// Converts a Bitmap object to a BitmapSource object (format 24RGB)
         /// </summary>
-        /// <param name="bitmap">picture in Bitmap</param>
-        /// <returns>picture in BitmapImage</returns>
-        private BitmapImage BitmapToImage(Bitmap bitmap)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-                memory.Position = 0;
-                BitmapImage bitmapimage = new BitmapImage();
-                bitmapimage.BeginInit();
-                bitmapimage.StreamSource = memory;
-                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapimage.EndInit();
-
-                return bitmapimage;
-            }
-        }
-
         private BitmapSource ConvertBitmapToSource(Bitmap bitmap)
         {
+            //Get data from image
             var bitmapData = bitmap.LockBits(
                 new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, bitmap.PixelFormat);
-
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            //Convert image to source using data
             var bitmapSource = BitmapSource.Create(
                 bitmapData.Width, bitmapData.Height,
                 bitmap.HorizontalResolution, bitmap.VerticalResolution,
@@ -99,7 +76,7 @@ namespace RobotMove
             Application.Current.Dispatcher.Invoke(() =>
             {
                 imgBase.Source = ConvertBitmapToSource(image);
-                //imgProcessed.Source = ConvertBitmapToSource(imageAnalysed);//TODO analysed image parameters
+                imgProcessed.Source = ConvertBitmapToSource(imageAnalysed);
             });
         }
 

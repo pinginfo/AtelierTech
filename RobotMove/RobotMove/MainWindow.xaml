@@ -5,14 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RobotMove"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Rob'Move" Height="800" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
-        <Image x:Name="imgBase" HorizontalAlignment="Left" Height="500" VerticalAlignment="Top" Width="500" Margin="10,44,0,0"/>
-        <ComboBox x:Name="cbxCameras" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top" Width="120" Height="26"/>
-        <Label x:Name="lblCameraSelect" Content="Select a camera feed :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btnStartCamera" Content="Start Camera" HorizontalAlignment="Left" Margin="260,10,0,0" VerticalAlignment="Top" Width="100" Height="26"/>
-        <Image x:Name="imgProcessed" HorizontalAlignment="Left" Height="50" Margin="515,44,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button x:Name="btnStartAnalyzing" Content="Start Analyzing" HorizontalAlignment="Left" Margin="365,10,0,0" VerticalAlignment="Top" Width="100" Height="26"/>
+        <Image x:Name="imgBase" HorizontalAlignment="Left" Height="500" VerticalAlignment="Top" Width="500" Margin="10,10,0,0"/>
+        <Image x:Name="imgProcessed" HorizontalAlignment="Left" Height="50" Margin="515,10,0,0" VerticalAlignment="Top" Width="50"/>
         <Button x:Name="btnForward" Content="Forward" HorizontalAlignment="Left" Margin="99,716,0,0" VerticalAlignment="Top" Width="76" Click="BtnForward_Click"/>
         <Button x:Name="btnTurn" Content="Turn 45 right" HorizontalAlignment="Left" Margin="180,716,0,0" VerticalAlignment="Top" Width="114" Click="BtnTurn_Click"/>
 

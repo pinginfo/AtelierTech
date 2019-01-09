@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotMove
 {
-    interface IRobot
+    public interface IRobot
     {
         /// <summary>
         /// Turn the robot some degrees clockwise
