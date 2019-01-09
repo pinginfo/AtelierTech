@@ -34,7 +34,6 @@ namespace RobotMove
         public MainWindow()
         {
             InitializeComponent();
-            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -49,19 +48,19 @@ namespace RobotMove
             cbxCameras.SelectedIndex = 0;
         }
 
-        void VideoStart()
+        private void VideoStart()
         {
             FinalVideoSource = new VideoCaptureDevice(VideoCaptureDevices[cbxCameras.SelectedIndex].MonikerString);
             FinalVideoSource.NewFrame += new NewFrameEventHandler(FinalVideoSource_NewFrame);
             FinalVideoSource.Start();
-
         }
+
         /// <summary>
         /// Method for convert bitmap to bitmapImage 
         /// </summary>
         /// <param name="bitmap">picture in Bitmap</param>
         /// <returns>picture in BitmapImage</returns>
-        BitmapImage BitmapToImageSource(Bitmap bitmap)
+        private BitmapImage BitmapToImage(Bitmap bitmap)
         {
             using (MemoryStream memory = new MemoryStream())
             {
@@ -77,23 +76,31 @@ namespace RobotMove
             }
         }
 
-        void FinalVideoSource_NewFrame(Object sender, NewFrameEventArgs eventArgs)
+        private BitmapSource ConvertBitmapToSource(Bitmap bitmap)
+        {
+            var bitmapData = bitmap.LockBits(
+                new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, bitmap.PixelFormat);
+
+            var bitmapSource = BitmapSource.Create(
+                bitmapData.Width, bitmapData.Height,
+                bitmap.HorizontalResolution, bitmap.VerticalResolution,
+                PixelFormats.Bgr24, null,
+                bitmapData.Scan0, bitmapData.Stride * bitmapData.Height, bitmapData.Stride);
+
+            bitmap.UnlockBits(bitmapData);
+            return bitmapSource;
+        }
+
+        private void FinalVideoSource_NewFrame(Object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap image = (Bitmap)eventArgs.Frame.Clone();
-            Bitmap imageanalysed = analyse.getDirection((Bitmap)eventArgs.Frame.Clone()).picture;
-            Application.Current.Dispatcher.Invoke(() => {
-                BitmapImage imageConvert = BitmapToImageSource(image);
-                imgBase.Source = imageConvert;
-                //BitmapImage imageAnalysedConvert = BitmapToImageSource(imageanalysed);
-                //imgBase.Source = imageAnalysedConvert;          
+            Bitmap imageAnalysed = analyse.getDirection((Bitmap)eventArgs.Frame.Clone()).picture;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                imgBase.Source = ConvertBitmapToSource(image);
+                //imgProcessed.Source = ConvertBitmapToSource(imageAnalysed);//TODO analysed image parameters
             });
-            Application.Current.Dispatcher.Invoke(() => {
-                //BitmapImage imageConvert = BitmapToImageSource(image);
-                //imgBase.Source = imageConvert;
-                BitmapImage imageAnalysedConvert = BitmapToImageSource(imageanalysed);
-                imgProcessed.Source = imageAnalysedConvert;          
-            });
-
         }
 
         private void BtnForward_Click(object sender, RoutedEventArgs e)
