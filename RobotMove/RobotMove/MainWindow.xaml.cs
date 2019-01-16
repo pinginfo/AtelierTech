@@ -80,7 +80,7 @@ namespace RobotMove
         {
             var bitmapData = bitmap.LockBits(
                 new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, bitmap.PixelFormat);
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             var bitmapSource = BitmapSource.Create(
                 bitmapData.Width, bitmapData.Height,
@@ -99,8 +99,54 @@ namespace RobotMove
             Application.Current.Dispatcher.Invoke(() =>
             {
                 imgBase.Source = ConvertBitmapToSource(image);
-                //imgProcessed.Source = ConvertBitmapToSource(imageAnalysed);//TODO analysed image parameters
+                imgProcessed.Source = ConvertBitmapToSource(imageAnalysed);//TODO analysed image parameters
+                sendDirectionRobot(analyse.getDirectionCase());
             });
+        }
+
+        private void sendDirectionRobot(int numberDirection)
+        {
+            switch (numberDirection)
+            {
+                case 0:
+                    robot.Turn(-45);
+                    debug.Content = "robot.Turn(-45)";
+                    break;
+                case 1:
+                    robot.Move(100, 500);
+                    debug.Content = "robot.Move(100,500)";
+                    break;
+                case 2:
+                    robot.Turn(45);
+                    debug.Content = "robot.Turn(45)";
+                    break;
+                case 3:
+                    robot.Turn(-90);
+                    debug.Content = "robot.Turn(-90)";
+                    break;
+                case 4:
+                    robot.Move(0, 500);
+                    debug.Content = "robot.Move(0,500)";
+                    break;
+                case 5:
+                    robot.Turn(90);
+                    debug.Content = "robot.Turn(90)";
+                    break;
+                case 6:
+                    robot.Turn(-135);
+                    debug.Content = "robot.Turn(-135)";
+                    break;
+                case 7:
+                    robot.Move(-100, 500);
+                    debug.Content = "robot.Move(-100,500)";
+                    break;
+                case 8:
+                    robot.Turn(135);
+                    debug.Content = "robot.Turn(135)";
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void BtnForward_Click(object sender, RoutedEventArgs e)

@@ -143,6 +143,11 @@ namespace RobotMove
             int CellUsed = getCellUsed(tableCell);
             return new InfoPicture() { nameDirection = _directionName[CellUsed], numberCell = CellUsed, picture = this.pictureOutput.Bitmap };
         }
+
+        public int getDirectionCase()
+        {
+            return getCellUsed(analyseTheGrid());
+        }
         #endregion
     }
 }
