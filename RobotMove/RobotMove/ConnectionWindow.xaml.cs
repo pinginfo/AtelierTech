@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows.Threading;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace RobotMove
     {
         private Robot robot;
         private VideoCaptureDevice selectedVideoCaptureDevice;
+        private DispatcherTimer dispatcherTimer;
 
         public ConnectionWindow()
         {
@@ -36,18 +38,15 @@ namespace RobotMove
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //Get connected bluetooth devices
-            BluetoothDeviceInfo[] devices;
-            Bluetooth
-            using (BluetoothClient sdp = new BluetoothClient())
-            {
-                devices = sdp.DiscoverDevices();
-            }
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = new TimeSpan(0,0,0,0,100);
+            dispatcherTimer.Tick += new EventHandler(VerifyRobotConnection);
+
             //Initialize list of bluetooth devices
             cbxBluetoothDevices.DisplayMemberPath = "Key";
-            foreach (BluetoothDeviceInfo deviceInfo in devices)
+            foreach (COMPortInfo portInfo in COMPortInfo.GetCOMPortsInfo())
             {
-                cbxBluetoothDevices.Items.Add(new KeyValuePair<string, BluetoothDeviceInfo>(deviceInfo.DeviceName, deviceInfo));
+                cbxBluetoothDevices.Items.Add(new KeyValuePair<string, string>(portInfo.Description, portInfo.Name));
             }
             //Initialize list of cameras
             FilterInfoCollection VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
@@ -60,18 +59,33 @@ namespace RobotMove
 
         private void BtnConnect_Click(object sender, RoutedEventArgs e)
         {
+            string COMPort = ((KeyValuePair<string, string>)cbxBluetoothDevices.SelectedItem).Value;
+            robot = new Robot(COMPort);
+            Task.Run(async () =>
+            {
+                ConnectToRobot();
+            });
+        }
+
+        private async void ConnectToRobot()
+        {
+            dispatcherTimer.Start();
             //Try to connect to selected bluetooth device
             try
             {
-                string bluetoothAddress = ((KeyValuePair < string, BluetoothDeviceInfo>)cbxBluetoothDevices.SelectedItem).Value.DeviceAddress.ToString();
-                robot = new Robot(bluetoothAddress);
-                
+                robot.Initialize().Wait();
             }
             catch (Exception error)
             {
                 Debug.Print(error.Message);
-                MessageBox.Show("Could not conect sucessfully to the robot.","Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could not conect sucessfully to the robot.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void StopLoadAnimation()
+        {
+            dispatcherTimer.Stop();
+            prbConnection.Value = 0;
         }
 
         private void BtnLaunch_Click(object sender, RoutedEventArgs e)
@@ -101,37 +115,26 @@ namespace RobotMove
             this.selectedVideoCaptureDevice = new VideoCaptureDevice(((KeyValuePair < string, FilterInfo>)cbxCameras.SelectedItem).Value.MonikerString);
         }
 
-        /// <summary>
-        /// Compile an array of COM port names associated with given VID and PID
-        /// </summary>
-        /// <param name="VID">string representing the vendor id of the USB/Serial convertor</param>
-        /// <param name="PID">string representing the product id of the USB/Serial convertor</param>
-        /// <returns></returns>
-        private List<string> getPortByVPid(String VID, String PID)
+        private void VerifyRobotConnection(object sender, EventArgs e)
         {
-            String pattern = String.Format("^VID_{0}.PID_{1}", VID, PID);
-            Regex _rx = new Regex(pattern, RegexOptions.IgnoreCase);
-            List<string> comports = new List<string>();
-            RegistryKey rk1 = Registry.LocalMachine;
-            RegistryKey rk2 = rk1.OpenSubKey("SYSTEM\\CurrentControlSet\\Enum");
-            foreach (String s3 in rk2.GetSubKeyNames())
+            DispatcherTimer timer = ((DispatcherTimer)sender);
+            // Updating the Label which displays the current second
+            if (robot.Connected)
             {
-                RegistryKey rk3 = rk2.OpenSubKey(s3);
-                foreach (String s in rk3.GetSubKeyNames())
+                timer.Stop();
+                prbConnection.Value = 100;
+            }
+            else
+            {
+                prbConnection.Value += 100 * timer.Interval.TotalSeconds;
+                if(prbConnection.Value > 100)
                 {
-                    if (_rx.Match(s).Success)
-                    {
-                        RegistryKey rk4 = rk3.OpenSubKey(s);
-                        foreach (String s2 in rk4.GetSubKeyNames())
-                        {
-                            RegistryKey rk5 = rk4.OpenSubKey(s2);
-                            RegistryKey rk6 = rk5.OpenSubKey("Device Parameters");
-                            comports.Add((string)rk6.GetValue("PortName"));
-                        }
-                    }
+                    prbConnection.Value = 0;
                 }
             }
-            return comports;
+
+            // Forcing the CommandManager to raise the RequerySuggested event
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

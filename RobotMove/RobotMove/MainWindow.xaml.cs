@@ -26,11 +26,11 @@ namespace RobotMove
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IRobot robot;
+        private Robot robot;
         private AnalysePicture analyse;
         private VideoCaptureDevice videoCaptureDevice;
 
-        public MainWindow(IRobot robot, VideoCaptureDevice videoCaptureDevice)
+        public MainWindow(Robot robot, VideoCaptureDevice videoCaptureDevice)
         {
             InitializeComponent();
             this.robot = robot;

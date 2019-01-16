@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace RobotMove
 {
-    class Robot : IRobot
+    public class Robot
     {
         Brick _brick;
+        string _COMPort;
         bool _connected;
 
         public bool Connected { get => _connected; }
@@ -29,10 +30,8 @@ namespace RobotMove
         /// <param name="COMPort">COM Port of the robot bluetooth interface. Ex : "COM5"</param>
         public Robot(string COMPort) : base()
         {
-            Initialize(COMPort);
+            _COMPort = COMPort;
         }
-
-        
 
         public void Disconnect()
         {
@@ -43,23 +42,21 @@ namespace RobotMove
             }
         }
 
-        public void Initialize(string COMPort)
+        public async Task Initialize()
         {
-            _brick = new Brick(new BluetoothCommunication(COMPort));
-            Task.Run(async () =>
+            _brick = new Brick(new BluetoothCommunication(_COMPort));
+
+            try
             {
-                try
-                {
-                    await _brick.ConnectAsync();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    throw e;
-                }
-                _connected = true;
-                Console.WriteLine("Brick connected");
-            });
+                await _brick.ConnectAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw e;
+            }
+            _connected = true;
+            Console.WriteLine("Brick connected");
         }
         
 
