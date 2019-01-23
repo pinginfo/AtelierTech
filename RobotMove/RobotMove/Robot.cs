@@ -49,14 +49,16 @@ namespace RobotMove
             try
             {
                 await _brick.ConnectAsync();
+                _connected = true;
+                Console.WriteLine("Brick connected");
             }
             catch (Exception e)
             {
+                _connected = false;
+                Console.WriteLine("Brick error");
                 Console.WriteLine(e.Message);
                 throw e;
             }
-            _connected = true;
-            Console.WriteLine("Brick connected");
         }
         
 

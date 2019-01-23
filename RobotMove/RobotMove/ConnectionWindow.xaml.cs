@@ -127,7 +127,7 @@ namespace RobotMove
             else
             {
                 prbConnection.Value += 100 * timer.Interval.TotalSeconds;
-                if(prbConnection.Value > 100)
+                if(prbConnection.Value >= 100)
                 {
                     prbConnection.Value = 0;
                 }

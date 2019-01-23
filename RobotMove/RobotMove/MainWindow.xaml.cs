@@ -29,6 +29,7 @@ namespace RobotMove
         private Robot robot;
         private AnalysePicture analyse;
         private VideoCaptureDevice videoCaptureDevice;
+        int frameSkipFlag = 0;
 
         public MainWindow(Robot robot, VideoCaptureDevice videoCaptureDevice)
         {
@@ -72,54 +73,58 @@ namespace RobotMove
         private void FinalVideoSource_NewFrame(Object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap image = (Bitmap)eventArgs.Frame.Clone();
-            Bitmap imageAnalysed = analyse.getDirection((Bitmap)eventArgs.Frame.Clone()).picture;
+            Bitmap imageAnalysed = null;
+            if (frameSkipFlag >= 4)
+            {
+                imageAnalysed = analyse.getDirection((Bitmap)eventArgs.Frame.Clone()).picture;
+                sendDirectionRobot(analyse.getDirectionCase());
+                frameSkipFlag = 0;
+            }
+            
             Application.Current.Dispatcher.Invoke(() =>
             {
                 imgBase.Source = ConvertBitmapToSource(image);
-                imgProcessed.Source = ConvertBitmapToSource(imageAnalysed);//TODO analysed image parameters
-                sendDirectionRobot(analyse.getDirectionCase());
+                if (imageAnalysed != null)
+                {
+                    imgProcessed.Source = ConvertBitmapToSource(imageAnalysed);
+                }
             });
+            frameSkipFlag++;
         }
 
         private void sendDirectionRobot(int numberDirection)
         {
+            int degreesTurn = 1;
+            int force = 100;
+            uint time = 500;
+            //0 1 2
+            //3 4 5
+            //6 7 8
             switch (numberDirection)
             {
                 case 0:
-                    robot.Turn(-45);
-                    debug.Content = "robot.Turn(-45)";
+                    robot.Turn(-degreesTurn);
                     break;
                 case 1:
-                    robot.Move(100, 500);
-                    debug.Content = "robot.Move(100,500)";
+                    robot.Move(force, time);
                     break;
                 case 2:
-                    robot.Turn(45);
-                    debug.Content = "robot.Turn(45)";
+                    robot.Turn(degreesTurn);
                     break;
                 case 3:
-                    robot.Turn(-90);
-                    debug.Content = "robot.Turn(-90)";
-                    break;
-                case 4:
-                    robot.Move(0, 500);
-                    debug.Content = "robot.Move(0,500)";
+                    robot.Turn(-degreesTurn);
                     break;
                 case 5:
-                    robot.Turn(90);
-                    debug.Content = "robot.Turn(90)";
+                    robot.Turn(degreesTurn);
                     break;
                 case 6:
-                    robot.Turn(-135);
-                    debug.Content = "robot.Turn(-135)";
+                    robot.Turn(-degreesTurn);
                     break;
                 case 7:
-                    robot.Move(-100, 500);
-                    debug.Content = "robot.Move(-100,500)";
+                    robot.Move(-force, time);
                     break;
                 case 8:
-                    robot.Turn(135);
-                    debug.Content = "robot.Turn(135)";
+                    robot.Turn(degreesTurn);
                     break;
                 default:
                     break;
@@ -139,6 +144,7 @@ namespace RobotMove
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            videoCaptureDevice.SignalToStop();
             robot.Disconnect();
         }
     }
