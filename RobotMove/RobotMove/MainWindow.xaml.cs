@@ -146,6 +146,15 @@ namespace RobotMove
         {
             videoCaptureDevice.SignalToStop();
             robot.Disconnect();
+            videoCaptureDevice.Stop();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+                Button btn = (Button)sender;
+                int value = Convert.ToInt32(btn.Name.Substring(1, 1));
+                sendDirectionRobot(value);
+            
         }
     }
 }
