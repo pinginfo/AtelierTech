@@ -29,6 +29,7 @@ namespace RobotMove
         private Robot robot;
         private AnalysePicture analyse;
         private VideoCaptureDevice videoCaptureDevice;
+        private PictureData pictureData;
         int frameSkipFlag = 0;
 
         public MainWindow(Robot robot, VideoCaptureDevice videoCaptureDevice)
@@ -76,8 +77,9 @@ namespace RobotMove
             Bitmap imageAnalysed = null;
             if (frameSkipFlag >= 4)
             {
-                imageAnalysed = analyse.getDirection((Bitmap)eventArgs.Frame.Clone()).picture;
-                sendDirectionRobot(analyse.getDirectionCase());
+                pictureData = analyse.getDirection((Bitmap)eventArgs.Frame.Clone());
+                imageAnalysed = pictureData.Picture;
+                sendDirectionRobot(pictureData.NumberCase);
                 frameSkipFlag = 0;
             }
             

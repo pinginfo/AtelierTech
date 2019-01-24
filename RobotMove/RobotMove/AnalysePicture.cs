@@ -28,15 +28,6 @@ namespace RobotMove
         private string[] _directionName = new string[] { "Haut à gauche", "Haut", "Haut à droite", "Gauche", "Milieu", "Droite", "Bas à gauche", "Bas", "Bas à droite" };
         #endregion
 
-        #region Structures
-        public struct InfoPicture
-        {
-            public string nameDirection;
-            public int numberCell;
-            public Bitmap picture;
-        }
-        #endregion
-
         #region Constructor
         /// <summary>
         /// Main constructor of this class
@@ -135,18 +126,12 @@ namespace RobotMove
         /// </summary>
         /// <param name="picture">The picture to analyse</param>
         /// <returns>All info from the picture</returns>
-        public InfoPicture getDirection(Bitmap picture)
+        public PictureData getDirection(Bitmap picture)
         {
             this.pictureInput = setPicture(picture);
             this.pictureOutput = transformPicture(this.pictureInput);
             int[] tableCell = analyseTheGrid();
-            int CellUsed = getCellUsed(tableCell);
-            return new InfoPicture() { nameDirection = _directionName[CellUsed], numberCell = CellUsed, picture = this.pictureOutput.Bitmap };
-        }
-
-        public int getDirectionCase()
-        {
-            return getCellUsed(analyseTheGrid());
+            return new PictureData(this.pictureOutput.Bitmap, getCellUsed(tableCell), _directionName[CellUsed]);
         }
         #endregion
     }
