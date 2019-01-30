@@ -1,4 +1,13 @@
-﻿using System;
+/*
+ *  Authors      : Yanis, Guillaume, Kilian
+ *  Date         : 30-01-2019
+ *  Project      : AnalyseRealTime
+ *  Version      : 1.0
+ *  File         : PictureData.cs
+ *  description  : 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
