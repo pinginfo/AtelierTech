@@ -46,7 +46,7 @@ namespace RobotMoveWForm
             //Launch main program
             frmMain window = new frmMain(robot, selectedVideoCaptureDevice);
             window.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void frmConnection_Load(object sender, EventArgs e)
