@@ -86,7 +86,7 @@ namespace RobotMoveWForm
         {
             Bitmap image = (Bitmap)eventArgs.Frame.Clone();
             Bitmap imageAnalysed = null;
-            if (frameSkipFlag >= 4)
+            if (frameSkipFlag >= 2)
             {
                 pictureData = analyse.getDirection((Bitmap)eventArgs.Frame.Clone());
                 imageAnalysed = pictureData.Picture;
