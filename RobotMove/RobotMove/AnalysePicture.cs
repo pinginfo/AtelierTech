@@ -131,7 +131,7 @@ namespace RobotMove
             this.pictureInput = setPicture(picture);
             this.pictureOutput = transformPicture(this.pictureInput);
             int[] tableCell = analyseTheGrid();
-            return new PictureData(this.pictureOutput.Bitmap, getCellUsed(tableCell), _directionName[CellUsed]);
+            return new PictureData(this.pictureOutput.Bitmap, getCellUsed(tableCell));
         }
         #endregion
     }

@@ -85,6 +85,7 @@
       <DependentUpon>ConnectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AnalysePicture.cs" />
+    <Compile Include="PictureData.cs" />
     <Compile Include="Robot.cs" />
     <Page Include="ConnectionWindow.xaml">
       <SubType>Designer</SubType>
