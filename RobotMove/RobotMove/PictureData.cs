@@ -13,6 +13,8 @@ namespace RobotMove
 {
     public class PictureData
     {
+        private const string DEFAULT_NAME = "Default name";
+
         #region Variables
         private Bitmap _picture;
         private int _numberCase;
@@ -26,7 +28,7 @@ namespace RobotMove
         #endregion
 
         #region Constructor
-        public PictureData(Bitmap pPicture, int pNumberCase, string pNameCase)
+        public PictureData(Bitmap pPicture, int pNumberCase, string pNameCase = DEFAULT_NAME)
         {
             this.Picture = pPicture;
             this.NumberCase = pNumberCase;
