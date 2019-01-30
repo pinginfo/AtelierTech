@@ -130,7 +130,7 @@ namespace RobotMoveWForm
         private void frmMain_Load(object sender, EventArgs e)
         {
             analyse = new AnalysePicture();
-            //VideoStart();
+            VideoStart();
         }
     }
 }
