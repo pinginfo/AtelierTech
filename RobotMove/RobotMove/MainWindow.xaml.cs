@@ -32,7 +32,7 @@ namespace RobotMove
         private PictureData pictureData;
         int frameSkipFlag = 0;
 
-        public MainWindow(Robot robot, VideoCaptureDevice videoCaptureDevice)
+        public MainWindow(/*Robot robot, VideoCaptureDevice videoCaptureDevice*/)
         {
             InitializeComponent();
             this.robot = robot;
@@ -42,7 +42,7 @@ namespace RobotMove
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             analyse = new AnalysePicture();
-            VideoStart();
+            //VideoStart();
         }
 
         private void VideoStart()
@@ -155,8 +155,12 @@ namespace RobotMove
         {
                 Button btn = (Button)sender;
                 int value = Convert.ToInt32(btn.Name.Substring(3, 1));
-                sendDirectionRobot(value);
-            
+          //      sendDirectionRobot(value);
+        }
+
+        private void cbxCameras_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
