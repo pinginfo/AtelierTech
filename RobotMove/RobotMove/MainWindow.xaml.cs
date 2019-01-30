@@ -154,7 +154,7 @@ namespace RobotMove
         private void Button_Click(object sender, RoutedEventArgs e)
         {
                 Button btn = (Button)sender;
-                int value = Convert.ToInt32(btn.Name.Substring(1, 1));
+                int value = Convert.ToInt32(btn.Name.Substring(3, 1));
                 sendDirectionRobot(value);
             
         }

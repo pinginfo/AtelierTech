@@ -104,7 +104,7 @@ namespace RobotMove
             }
 
             //Launch main program
-            MainWindow window = new MainWindow(robot, selectedVideoCaptureDevice);
+            MainWindow window = new MainWindow(/*robot, selectedVideoCaptureDevice*/);
             window.Show();
             this.Close();
         }
