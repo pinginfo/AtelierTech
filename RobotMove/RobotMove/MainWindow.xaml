@@ -44,7 +44,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="btn2" Click="Button_Click" Content="45°" Margin="428,515,317,207.5">
+        <Button x:Name="btn2" Click="Button_Click" Content="45°" Margin="428,515,317,207.5" RenderTransformOrigin="0.5,0.505">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
