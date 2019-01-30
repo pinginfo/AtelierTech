@@ -30,15 +30,15 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.imgBase = new System.Windows.Forms.PictureBox();
-            this.btn = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.btn0 = new System.Windows.Forms.Button();
+            this.btn1 = new System.Windows.Forms.Button();
+            this.btn2 = new System.Windows.Forms.Button();
+            this.btn3 = new System.Windows.Forms.Button();
+            this.btn4 = new System.Windows.Forms.Button();
+            this.btn5 = new System.Windows.Forms.Button();
+            this.btn6 = new System.Windows.Forms.Button();
+            this.btn7 = new System.Windows.Forms.Button();
+            this.btn8 = new System.Windows.Forms.Button();
             this.imgProcessed = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.imgBase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgProcessed)).BeginInit();
@@ -63,96 +63,104 @@
             this.imgBase.TabIndex = 1;
             this.imgBase.TabStop = false;
             // 
-            // btn
+            // btn0
             // 
-            this.btn.Location = new System.Drawing.Point(149, 378);
-            this.btn.Name = "btn";
-            this.btn.Size = new System.Drawing.Size(48, 39);
-            this.btn.TabIndex = 2;
-            this.btn.Tag = "0";
-            this.btn.Text = "-45°";
-            this.btn.UseVisualStyleBackColor = true;
+            this.btn0.Location = new System.Drawing.Point(149, 378);
+            this.btn0.Name = "btn0";
+            this.btn0.Size = new System.Drawing.Size(48, 39);
+            this.btn0.TabIndex = 2;
+            this.btn0.Tag = "0";
+            this.btn0.Text = "-45°";
+            this.btn0.UseVisualStyleBackColor = true;
+            this.btn0.Click += new System.EventHandler(this.MoveRob);
             // 
-            // button2
+            // btn1
             // 
-            this.button2.Location = new System.Drawing.Point(203, 378);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(48, 39);
-            this.button2.TabIndex = 3;
-            this.button2.Tag = "1";
-            this.button2.Text = "↑";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.MoveRob);
+            this.btn1.Location = new System.Drawing.Point(203, 378);
+            this.btn1.Name = "btn1";
+            this.btn1.Size = new System.Drawing.Size(48, 39);
+            this.btn1.TabIndex = 3;
+            this.btn1.Tag = "1";
+            this.btn1.Text = "↑";
+            this.btn1.UseVisualStyleBackColor = true;
+            this.btn1.Click += new System.EventHandler(this.MoveRob);
             // 
-            // button3
+            // btn2
             // 
-            this.button3.Location = new System.Drawing.Point(257, 378);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(48, 39);
-            this.button3.TabIndex = 4;
-            this.button3.Tag = "2";
-            this.button3.Text = "45°";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btn2.Location = new System.Drawing.Point(257, 378);
+            this.btn2.Name = "btn2";
+            this.btn2.Size = new System.Drawing.Size(48, 39);
+            this.btn2.TabIndex = 4;
+            this.btn2.Tag = "2";
+            this.btn2.Text = "45°";
+            this.btn2.UseVisualStyleBackColor = true;
+            this.btn2.Click += new System.EventHandler(this.MoveRob);
             // 
-            // button4
+            // btn3
             // 
-            this.button4.Location = new System.Drawing.Point(149, 423);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(48, 39);
-            this.button4.TabIndex = 5;
-            this.button4.Tag = "3";
-            this.button4.Text = "<-";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btn3.Location = new System.Drawing.Point(149, 423);
+            this.btn3.Name = "btn3";
+            this.btn3.Size = new System.Drawing.Size(48, 39);
+            this.btn3.TabIndex = 5;
+            this.btn3.Tag = "3";
+            this.btn3.Text = "<-";
+            this.btn3.UseVisualStyleBackColor = true;
+            this.btn3.Click += new System.EventHandler(this.MoveRob);
             // 
-            // button5
+            // btn4
             // 
-            this.button5.Location = new System.Drawing.Point(203, 423);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(48, 39);
-            this.button5.TabIndex = 6;
-            this.button5.Tag = "4";
-            this.button5.Text = "Stop";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btn4.Location = new System.Drawing.Point(203, 423);
+            this.btn4.Name = "btn4";
+            this.btn4.Size = new System.Drawing.Size(48, 39);
+            this.btn4.TabIndex = 6;
+            this.btn4.Tag = "4";
+            this.btn4.Text = "Stop";
+            this.btn4.UseVisualStyleBackColor = true;
+            this.btn4.Click += new System.EventHandler(this.MoveRob);
             // 
-            // button6
+            // btn5
             // 
-            this.button6.Location = new System.Drawing.Point(257, 423);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(48, 39);
-            this.button6.TabIndex = 7;
-            this.button6.Tag = "5";
-            this.button6.Text = "->";
-            this.button6.UseVisualStyleBackColor = true;
+            this.btn5.Location = new System.Drawing.Point(257, 423);
+            this.btn5.Name = "btn5";
+            this.btn5.Size = new System.Drawing.Size(48, 39);
+            this.btn5.TabIndex = 7;
+            this.btn5.Tag = "5";
+            this.btn5.Text = "->";
+            this.btn5.UseVisualStyleBackColor = true;
+            this.btn5.Click += new System.EventHandler(this.MoveRob);
             // 
-            // button7
+            // btn6
             // 
-            this.button7.Location = new System.Drawing.Point(149, 468);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(48, 39);
-            this.button7.TabIndex = 8;
-            this.button7.Tag = "6";
-            this.button7.Text = "-135°";
-            this.button7.UseVisualStyleBackColor = true;
+            this.btn6.Location = new System.Drawing.Point(149, 468);
+            this.btn6.Name = "btn6";
+            this.btn6.Size = new System.Drawing.Size(48, 39);
+            this.btn6.TabIndex = 8;
+            this.btn6.Tag = "6";
+            this.btn6.Text = "-135°";
+            this.btn6.UseVisualStyleBackColor = true;
+            this.btn6.Click += new System.EventHandler(this.MoveRob);
             // 
-            // button8
+            // btn7
             // 
-            this.button8.Location = new System.Drawing.Point(203, 468);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(48, 39);
-            this.button8.TabIndex = 9;
-            this.button8.Tag = "7";
-            this.button8.Text = "↓";
-            this.button8.UseVisualStyleBackColor = true;
+            this.btn7.Location = new System.Drawing.Point(203, 468);
+            this.btn7.Name = "btn7";
+            this.btn7.Size = new System.Drawing.Size(48, 39);
+            this.btn7.TabIndex = 9;
+            this.btn7.Tag = "7";
+            this.btn7.Text = "↓";
+            this.btn7.UseVisualStyleBackColor = true;
+            this.btn7.Click += new System.EventHandler(this.MoveRob);
             // 
-            // button9
+            // btn8
             // 
-            this.button9.Location = new System.Drawing.Point(257, 468);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(48, 39);
-            this.button9.TabIndex = 10;
-            this.button9.Tag = "8";
-            this.button9.Text = "135°";
-            this.button9.UseVisualStyleBackColor = true;
+            this.btn8.Location = new System.Drawing.Point(257, 468);
+            this.btn8.Name = "btn8";
+            this.btn8.Size = new System.Drawing.Size(48, 39);
+            this.btn8.TabIndex = 10;
+            this.btn8.Tag = "8";
+            this.btn8.Text = "135°";
+            this.btn8.UseVisualStyleBackColor = true;
+            this.btn8.Click += new System.EventHandler(this.MoveRob);
             // 
             // imgProcessed
             // 
@@ -168,15 +176,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1031, 526);
             this.Controls.Add(this.imgProcessed);
-            this.Controls.Add(this.button9);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.btn);
+            this.Controls.Add(this.btn8);
+            this.Controls.Add(this.btn7);
+            this.Controls.Add(this.btn6);
+            this.Controls.Add(this.btn5);
+            this.Controls.Add(this.btn4);
+            this.Controls.Add(this.btn3);
+            this.Controls.Add(this.btn2);
+            this.Controls.Add(this.btn1);
+            this.Controls.Add(this.btn0);
             this.Controls.Add(this.imgBase);
             this.Controls.Add(this.label1);
             this.Name = "frmMain";
@@ -194,15 +202,15 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox imgBase;
-        private System.Windows.Forms.Button btn;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button btn0;
+        private System.Windows.Forms.Button btn1;
+        private System.Windows.Forms.Button btn2;
+        private System.Windows.Forms.Button btn3;
+        private System.Windows.Forms.Button btn4;
+        private System.Windows.Forms.Button btn5;
+        private System.Windows.Forms.Button btn6;
+        private System.Windows.Forms.Button btn7;
+        private System.Windows.Forms.Button btn8;
         private System.Windows.Forms.PictureBox imgProcessed;
     }
 }
