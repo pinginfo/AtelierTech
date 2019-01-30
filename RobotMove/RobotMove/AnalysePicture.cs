@@ -18,13 +18,15 @@ namespace RobotMove
     {
 
         #region Constants
-        const int DEFAUL_SIZE = 50;
+        const int DEFAULT_SIZE = 50;
+        const int DEFAULT_MIN_PIXEL_DETECT = 25;
         #endregion
 
         #region Variables
         private Image<Bgr, byte> pictureInput;
         private Image<Gray, byte> pictureOutput;
         private Size _size;
+        private int _minPixelDetect;
         private string[] _directionName = new string[] { "Haut à gauche", "Haut", "Haut à droite", "Gauche", "Milieu", "Droite", "Bas à gauche", "Bas", "Bas à droite" };
         #endregion
 
@@ -33,11 +35,12 @@ namespace RobotMove
         /// Main constructor of this class
         /// </summary>
         /// <param name="size">Size of the picture to analyse</param>
-        public AnalysePicture(Size size)
+        public AnalysePicture(Size size, int minPixelDetect = DEFAULT_MIN_PIXEL_DETECT)
         {
             this._size = size;
+            this._minPixelDetect = minPixelDetect;
         }
-        public AnalysePicture() : this(new Size(DEFAUL_SIZE, DEFAUL_SIZE))
+        public AnalysePicture() : this(new Size(DEFAULT_SIZE, DEFAULT_SIZE))
         {
 
         }
@@ -116,9 +119,23 @@ namespace RobotMove
         /// <returns>The number of the cell</returns>
         public int getCellUsed(int[] tableCell)
         {
-            int maxValue = tableCell.Max();
-            int maxIndex = tableCell.ToList().IndexOf(maxValue);
-            return maxIndex;
+            int result = 0;
+            int[] tableTop = new int[3];
+            int[] tableCenter = new int[3];
+            int[] tableBot = new int[3];
+            for (int i = 0; i < tableCell.Length / 3; i++)
+            {
+                tableTop[i] = tableCell[i];
+                tableCenter[i] = tableCell[i+3];
+                tableBot[i] = tableCell[i+6];
+            }
+
+            if (tableTop.Max() > _minPixelDetect) result = tableTop.ToList().IndexOf(tableTop.Max());
+            else if (tableCenter.Max() > _minPixelDetect) result = tableCenter.ToList().IndexOf(tableCenter.Max()) + 3;
+            else if (tableBot.Max() > _minPixelDetect) result = tableBot.ToList().IndexOf(tableBot.Max()) + 6;
+            else result = 4;
+
+            return result;
         }
 
         /// <summary>
@@ -131,7 +148,8 @@ namespace RobotMove
             this.pictureInput = setPicture(picture);
             this.pictureOutput = transformPicture(this.pictureInput);
             int[] tableCell = analyseTheGrid();
-            return new PictureData(this.pictureOutput.Bitmap, getCellUsed(tableCell));
+            int cellUsesed = getCellUsed(tableCell);
+            return new PictureData(this.pictureOutput.Bitmap, cellUsesed, _directionName[cellUsesed]);
         }
         #endregion
     }
