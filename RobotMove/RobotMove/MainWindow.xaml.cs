@@ -3,7 +3,7 @@
  *  Date         : 30-01-2019
  *  Project      : AnalyseRealTime
  *  Version      : 1.0
- *  File         : PictureData.cs
+ *  File         : MainWindow.xaml.cs
  *  description  : 
  */
 
