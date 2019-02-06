@@ -97,9 +97,10 @@ namespace RobotMove
             int degreesTurn = 1;
             int force = 100;
             uint time = 500;
-            //0 1 2
-            //3 4 5
-            //6 7 8
+            //directions :
+            //NW = 0, N = 1, NE = 2
+            //W = 3, NONE = 4, E = 5
+            //SW = 6, S = 7, SE = 8
             switch (numberDirection)
             {
                 case 0:
@@ -113,6 +114,9 @@ namespace RobotMove
                     break;
                 case 3:
                     robot.Turn(-degreesTurn);
+                    break;
+                case 4:
+                    robot.Move(0, time);
                     break;
                 case 5:
                     robot.Turn(degreesTurn);
@@ -131,17 +135,6 @@ namespace RobotMove
             }
         }
 
-        private void BtnForward_Click(object sender, RoutedEventArgs e)
-        {
-            robot.Move(100, 500);
-            VideoStart();
-        }
-
-        private void BtnTurn_Click(object sender, RoutedEventArgs e)
-        {
-            robot.Turn(45);
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             videoCaptureDevice.SignalToStop();
@@ -154,7 +147,6 @@ namespace RobotMove
                 Button btn = (Button)sender;
                 int value = Convert.ToInt32(btn.Name.Substring(1, 1));
                 sendDirectionRobot(value);
-            
         }
     }
 }

@@ -73,7 +73,7 @@ namespace RobotMove
             //Try to connect to selected bluetooth device
             try
             {
-                robot.Initialize().Wait();
+                robot.InitializeConnection().Wait();
             }
             catch (Exception error)
             {

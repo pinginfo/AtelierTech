@@ -33,6 +33,9 @@ namespace RobotMove
             _COMPort = COMPort;
         }
 
+        /// <summary>
+        /// Disconnect the robot
+        /// </summary>
         public void Disconnect()
         {
             if (_brick != null)
@@ -42,7 +45,11 @@ namespace RobotMove
             }
         }
 
-        public async Task Initialize()
+        /// <summary>
+        /// Initialize the bluetooth connection with the objects comport
+        /// Changes the connected attribute based on the sucess of the connection
+        /// </summary>
+        public async Task InitializeConnection()
         {
             _brick = new Brick(new BluetoothCommunication(_COMPort));
 
@@ -61,20 +68,28 @@ namespace RobotMove
             }
         }
         
-
-        public void Move(int force, uint timeMs)
+        /// <summary>
+        /// Move at a given speed and time
+        /// </summary>
+        /// <param name="speed">Between -100 and 100</param>
+        /// <param name="timeMs">Time in milliseconds</param>
+        public void Move(int speed, uint timeMs)
         {
             if (_connected)
             {
                 Task.Run(async () =>
                 {
-                    _brick.BatchCommand.TurnMotorAtPowerForTime(OutputPort.A, -force, timeMs, true);
-                    _brick.BatchCommand.TurnMotorAtPowerForTime(OutputPort.D, -force, timeMs, true);
+                    _brick.BatchCommand.TurnMotorAtPowerForTime(OutputPort.A, -speed, timeMs, true);
+                    _brick.BatchCommand.TurnMotorAtPowerForTime(OutputPort.D, -speed, timeMs, true);
                     _brick.BatchCommand.SendCommandAsync();
                 });
             }
         }
 
+        /// <summary>
+        /// Turn some amount of degrees
+        /// </summary>
+        /// <param name="degrees"></param>
         public void Turn(int degrees)
         {
             if (_connected)
