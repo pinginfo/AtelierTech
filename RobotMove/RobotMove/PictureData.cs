@@ -13,7 +13,9 @@ namespace RobotMove
 {
     public class PictureData
     {
+        #region Const
         private const string DEFAULT_NAME = "Default name";
+        #endregion
 
         #region Variables
         private Bitmap _picture;
