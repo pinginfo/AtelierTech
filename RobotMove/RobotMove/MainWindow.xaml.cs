@@ -1,4 +1,13 @@
-﻿using System;
+/*
+ *  Authors      : Yanis, Guillaume, Kilian
+ *  Date         : 30-01-2019
+ *  Project      : AnalyseRealTime
+ *  Version      : 1.0
+ *  File         : MainWindow.xaml.cs
+ *  description  : 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +38,7 @@ namespace RobotMove
         private Robot robot;
         private AnalysePicture analyse;
         private VideoCaptureDevice videoCaptureDevice;
+        private PictureData pictureData;
         int frameSkipFlag = 0;
 
         public MainWindow(Robot robot, VideoCaptureDevice videoCaptureDevice)
@@ -76,8 +86,9 @@ namespace RobotMove
             Bitmap imageAnalysed = null;
             if (frameSkipFlag >= 4)
             {
-                imageAnalysed = analyse.getDirection((Bitmap)eventArgs.Frame.Clone()).picture;
-                sendDirectionRobot(analyse.getDirectionCase());
+                pictureData = analyse.getDirection((Bitmap)eventArgs.Frame.Clone());
+                imageAnalysed = pictureData.Picture;
+                sendDirectionRobot(pictureData.NumberCase);
                 frameSkipFlag = 0;
             }
             
@@ -97,10 +108,9 @@ namespace RobotMove
             int degreesTurn = 1;
             int force = 100;
             uint time = 500;
-            //directions :
-            //NW = 0, N = 1, NE = 2
-            //W = 3, NONE = 4, E = 5
-            //SW = 6, S = 7, SE = 8
+            //0 1 2
+            //3 4 5
+            //6 7 8
             switch (numberDirection)
             {
                 case 0:
@@ -114,9 +124,6 @@ namespace RobotMove
                     break;
                 case 3:
                     robot.Turn(-degreesTurn);
-                    break;
-                case 4:
-                    robot.Move(0, time);
                     break;
                 case 5:
                     robot.Turn(degreesTurn);
@@ -135,6 +142,17 @@ namespace RobotMove
             }
         }
 
+        private void BtnForward_Click(object sender, RoutedEventArgs e)
+        {
+            robot.Move(100, 500);
+            VideoStart();
+        }
+
+        private void BtnTurn_Click(object sender, RoutedEventArgs e)
+        {
+            robot.Turn(45);
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             videoCaptureDevice.SignalToStop();
@@ -145,8 +163,13 @@ namespace RobotMove
         private void Button_Click(object sender, RoutedEventArgs e)
         {
                 Button btn = (Button)sender;
-                int value = Convert.ToInt32(btn.Name.Substring(1, 1));
+                int value = Convert.ToInt32(btn.Name.Substring(3, 1));
                 sendDirectionRobot(value);
+        }
+
+        private void cbxCameras_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

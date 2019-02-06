@@ -12,7 +12,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Drawing;
 
-namespace RobotMove
+namespace RobotMoveWForm
 {
     public class AnalysePicture
     {

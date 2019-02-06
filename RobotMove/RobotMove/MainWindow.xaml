@@ -8,11 +8,24 @@
         Title="Rob'Move" Height="800" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Image x:Name="imgBase" HorizontalAlignment="Left" Height="367" VerticalAlignment="Top" Width="369" Margin="225,100,0,0" Grid.ColumnSpan="3"/>
+        <ComboBox x:Name="cbxCameras" HorizontalAlignment="Left" Margin="180,736,0,0" VerticalAlignment="Top" Width="120" Height="26" SelectionChanged="cbxCameras_SelectionChanged"/>
+        <Label x:Name="lblCameraSelect" Content="Select a camera feed :" HorizontalAlignment="Left" Margin="37,739,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnStartCamera" Content="Start Camera" HorizontalAlignment="Left" Margin="321,739,0,0" VerticalAlignment="Top" Width="100" Height="26"/>
         <Image x:Name="imgProcessed" HorizontalAlignment="Left" Height="50" Margin="112,50,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.211,-10.315" Grid.Column="2"/>
+        <Button x:Name="btnStartAnalyzing" Content="Start Analyzing" HorizontalAlignment="Left" Margin="685,698,0,0" VerticalAlignment="Top" Width="100" Height="26" RenderTransformOrigin="0.058,24.896"/>
+        <Button x:Name="btnForward" Content="Forward" HorizontalAlignment="Left" Margin="452,742,0,0" VerticalAlignment="Top" Width="76" Click="BtnForward_Click"/>
+        <Button x:Name="btnTurn" Content="Turn 45 right" HorizontalAlignment="Left" Margin="568,742,0,0" VerticalAlignment="Top" Width="114" Click="BtnTurn_Click"/>
+        <Label x:Name="debug" Content="Label" HorizontalAlignment="Left" Margin="37,680,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.016,20.378"/>
         <Label x:Name="lblNameProject" Content="Rob'Move" HorizontalAlignment="Left" Margin="304,26,0,0" VerticalAlignment="Top" FontSize="48" Grid.ColumnSpan="2"/>
-        <Button x:Name="b0" Click="Button_Click" Content="-45°" Margin="268,515,477,207.5" >
+        
+        <Button Background="AliceBlue" x:Name="btn0" Click="Button_Click" Content="-45°" Margin="268,515,477,207.5" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" Value="Blue"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                     <Grid>
                         <Ellipse Fill="Gray"/>
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -20,7 +33,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="b1" Click="Button_Click" Content="↑" Margin="349,515,396,207.5" RenderTransformOrigin="0.5,0.505">
+        
+        <Button x:Name="btn1" Click="Button_Click" Content="↑" Margin="349,515,396,207.5" RenderTransformOrigin="0.5,0.505">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -30,7 +44,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="b2" Click="Button_Click" Content="45°" Margin="428,515,317,207.5">
+        <Button x:Name="btn2" Click="Button_Click" Content="45°" Margin="428,515,317,207.5" RenderTransformOrigin="0.5,0.505">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -40,7 +54,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="b3" Click="Button_Click" Content="&lt;-" Margin="268,589,477,133.5">
+        <Button x:Name="btn3" Click="Button_Click" Content="&lt;-" Margin="268,589,477,133.5">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -50,7 +64,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="b4" Click="Button_Click" Content="Stop" Margin="349,589,396,133.5">
+        <Button x:Name="btn4" Click="Button_Click" Content="Stop" Margin="349,589,396,133.5" RenderTransformOrigin="0.5,0.505">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -60,7 +74,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="b5" Click="Button_Click" Content="-&gt;" Margin="428,589,317,133.5">
+        <Button x:Name="btn5" Click="Button_Click" Content="-&gt;" Margin="428,589,317,133.5">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -70,7 +84,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="b6" Click="Button_Click" Content="-135°" Margin="268,668,477,54.5">
+        <Button x:Name="btn6" Click="Button_Click" Content="-135°" Margin="268,668,477,54.5">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -80,7 +94,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="b7" Click="Button_Click" Content="↓" Margin="349,668,396,54.5">
+        <Button x:Name="btn7" Click="Button_Click" Content="↓" Margin="349,668,396,54.5">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -90,7 +104,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="b8" Click="Button_Click" Content="135°" Margin="428,668,317,54.5">
+        <Button x:Name="btn8" Click="Button_Click" Content="135°" Margin="428,668,317,54.5">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>

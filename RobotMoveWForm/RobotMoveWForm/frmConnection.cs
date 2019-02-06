@@ -1,63 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Windows.Threading;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AForge.Video.DirectShow;
-using InTheHand.Net.Sockets;
-using System.Management.Instrumentation;
-using System.IO.Ports;
-using System.Text.RegularExpressions;
-using Microsoft.Win32;
+using System.Windows.Forms;
 
-namespace RobotMove
+//Add
+using AForge.Video;
+using AForge.Video.DirectShow;
+using System.Windows.Threading;
+using System.Diagnostics;
+using System.Windows.Input;
+
+namespace RobotMoveWForm
 {
-    /// <summary>
-    /// Logique d'interaction pour ConnectionWindow.xaml
-    /// </summary>
-    public partial class ConnectionWindow : Window
+    public partial class frmConnection : Form
     {
         private Robot robot;
         private VideoCaptureDevice selectedVideoCaptureDevice;
         private DispatcherTimer dispatcherTimer;
 
-        public ConnectionWindow()
+        public frmConnection()
         {
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            //Error management
+            if (selectedVideoCaptureDevice == null)
+            {
+                MessageBox.Show("Cannot launch, please select a valid camera.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (robot == null || !robot.Connected)
+            {
+                MessageBox.Show("Cannot launch, the robot is not connected properly.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //Launch main program
+            frmMain window = new frmMain(robot, selectedVideoCaptureDevice);
+            window.Show();
+            this.Hide();
+        }
+
+        private void frmConnection_Load(object sender, EventArgs e)
         {
             dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = new TimeSpan(0,0,0,0,100);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
             dispatcherTimer.Tick += new EventHandler(VerifyRobotConnection);
 
             //Initialize list of bluetooth devices
-            cbxBluetoothDevices.DisplayMemberPath = "Key";
+            cbxBluetoothDevices.DisplayMember = "Key";
             foreach (COMPortInfo portInfo in COMPortInfo.GetCOMPortsInfo())
             {
                 cbxBluetoothDevices.Items.Add(new KeyValuePair<string, string>(portInfo.Description, portInfo.Name));
             }
             //Initialize list of cameras
             FilterInfoCollection VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            cbxCameras.DisplayMemberPath = "Key";
+            cbxCameras.DisplayMember = "Key";
             foreach (FilterInfo deviceInfo in VideoCaptureDevices)
             {
                 cbxCameras.Items.Add(new KeyValuePair<string, FilterInfo>(deviceInfo.Name, deviceInfo));
             }
         }
 
-        private void BtnConnect_Click(object sender, RoutedEventArgs e)
+        private void btnConnect_Click(object sender, EventArgs e)
         {
             string COMPort = ((KeyValuePair<string, string>)cbxBluetoothDevices.SelectedItem).Value;
             robot = new Robot(COMPort);
@@ -66,53 +79,30 @@ namespace RobotMove
                 ConnectToRobot();
             });
         }
-
         private async void ConnectToRobot()
         {
             dispatcherTimer.Start();
             //Try to connect to selected bluetooth device
             try
             {
-                robot.InitializeConnection().Wait();
+                robot.Initialize().Wait();
             }
             catch (Exception error)
             {
                 Debug.Print(error.Message);
-                MessageBox.Show("Could not conect sucessfully to the robot.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could not conect sucessfully to the robot.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void cbxCameras_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Store selected camera
+            this.selectedVideoCaptureDevice = new VideoCaptureDevice(((KeyValuePair<string, FilterInfo>)cbxCameras.SelectedItem).Value.MonikerString);
+        }
         private void StopLoadAnimation()
         {
             dispatcherTimer.Stop();
             prbConnection.Value = 0;
-        }
-
-        private void BtnLaunch_Click(object sender, RoutedEventArgs e)
-        {
-            //Error management
-            if (selectedVideoCaptureDevice == null)
-            {
-                MessageBox.Show("Cannot launch, please select a valid camera.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (robot == null || !robot.Connected)
-            {
-                MessageBox.Show("Cannot launch, the robot is not connected properly.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            //Launch main program
-            MainWindow window = new MainWindow(robot, selectedVideoCaptureDevice);
-            window.Show();
-            this.Close();
-        }
-
-        private void CbxCameras_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //Store selected camera
-            this.selectedVideoCaptureDevice = new VideoCaptureDevice(((KeyValuePair < string, FilterInfo>)cbxCameras.SelectedItem).Value.MonikerString);
         }
 
         private void VerifyRobotConnection(object sender, EventArgs e)
@@ -126,8 +116,8 @@ namespace RobotMove
             }
             else
             {
-                prbConnection.Value += 100 * timer.Interval.TotalSeconds;
-                if(prbConnection.Value >= 100)
+                prbConnection.Value += (int)(100 * timer.Interval.TotalSeconds);
+                if (prbConnection.Value >= 100)
                 {
                     prbConnection.Value = 0;
                 }
@@ -138,3 +128,4 @@ namespace RobotMove
         }
     }
 }
+ 
