@@ -80,9 +80,9 @@
             // 
             this.cbxBluetoothDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxBluetoothDevices.FormattingEnabled = true;
-            this.cbxBluetoothDevices.Location = new System.Drawing.Point(40, 138);
+            this.cbxBluetoothDevices.Location = new System.Drawing.Point(2, 138);
             this.cbxBluetoothDevices.Name = "cbxBluetoothDevices";
-            this.cbxBluetoothDevices.Size = new System.Drawing.Size(183, 21);
+            this.cbxBluetoothDevices.Size = new System.Drawing.Size(221, 21);
             this.cbxBluetoothDevices.TabIndex = 4;
             // 
             // btnConnect

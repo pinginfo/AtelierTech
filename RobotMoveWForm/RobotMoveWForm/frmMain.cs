@@ -43,6 +43,7 @@ namespace RobotMoveWForm
             videoCaptureDevice.SignalToStop();
             robot.Disconnect();
             videoCaptureDevice.Stop();
+            Application.Exit();
         }
         private void sendDirectionRobot(int numberDirection)
         {
