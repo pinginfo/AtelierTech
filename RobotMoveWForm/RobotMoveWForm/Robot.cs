@@ -75,20 +75,17 @@ namespace RobotMoveWForm
             }
         }
 
-        public void Turn(int degrees)
+        /// <summary>
+        /// Turn by specifiying the speed of both motors
+        /// </summary>
+        public void Turn(int leftMotorSpeed, int rightMotorSpeed)
         {
             if (_connected)
             {
-                int force = 100;
-                if (degrees < 0)
-                {
-                    force = -force;
-                }
-
                 Task.Run(async () =>
                 {
-                    _brick.BatchCommand.TurnMotorAtPowerForTime(OutputPort.A, -force, 500, true);
-                    _brick.BatchCommand.TurnMotorAtPowerForTime(OutputPort.D, force, 500, true);
+                    _brick.BatchCommand.TurnMotorAtPowerForTime(OutputPort.A, leftMotorSpeed, 500, true);
+                    _brick.BatchCommand.TurnMotorAtPowerForTime(OutputPort.D, rightMotorSpeed, 500, true);
                     _brick.BatchCommand.SendCommandAsync();
                 });
             }

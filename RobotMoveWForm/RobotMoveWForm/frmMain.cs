@@ -47,7 +47,6 @@ namespace RobotMoveWForm
         }
         private void sendDirectionRobot(int numberDirection)
         {
-            int degreesTurn = 1;
             int force = 100;
             uint time = 500;
             //0 1 2
@@ -56,28 +55,28 @@ namespace RobotMoveWForm
             switch (numberDirection)
             {
                 case 0:
-                    robot.Turn(-degreesTurn);
+                    robot.Turn(-50, -100);
                     break;
                 case 1:
                     robot.Move(force, time);
                     break;
                 case 2:
-                    robot.Turn(degreesTurn);
+                    robot.Turn(-100, -50);
                     break;
                 case 3:
-                    robot.Turn(-degreesTurn);
+                    robot.Turn(50, -50);
                     break;
                 case 5:
-                    robot.Turn(degreesTurn);
+                    robot.Turn(-50, 50);
                     break;
                 case 6:
-                    robot.Turn(-degreesTurn);
+                    robot.Turn(50, 100);
                     break;
                 case 7:
                     robot.Move(-force, time);
                     break;
                 case 8:
-                    robot.Turn(degreesTurn);
+                    robot.Turn(100, 50);
                     break;
                 default:
                     break;
