@@ -72,12 +72,19 @@ namespace RobotMoveWForm
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
+            if(cbxBluetoothDevices.SelectedItem != null)
+            { 
             string COMPort = ((KeyValuePair<string, string>)cbxBluetoothDevices.SelectedItem).Value;
             robot = new Robot(COMPort);
             Task.Run(async () =>
             {
                 ConnectToRobot();
             });
+            }
+            else
+            {
+                MessageBox.Show("Please choose a device");
+            }
         }
         private async void ConnectToRobot()
         {
@@ -90,7 +97,7 @@ namespace RobotMoveWForm
             catch (Exception error)
             {
                 Debug.Print(error.Message);
-                MessageBox.Show("Could not conect sucessfully to the robot.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Could not connect sucessfully to the robot.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -98,6 +105,8 @@ namespace RobotMoveWForm
         {
             //Store selected camera
             this.selectedVideoCaptureDevice = new VideoCaptureDevice(((KeyValuePair<string, FilterInfo>)cbxCameras.SelectedItem).Value.MonikerString);
+            checkOption();
+
         }
         private void StopLoadAnimation()
         {
@@ -113,6 +122,7 @@ namespace RobotMoveWForm
             {
                 timer.Stop();
                 prbConnection.Value = 100;
+                checkOption();
             }
             else
             {
@@ -125,6 +135,17 @@ namespace RobotMoveWForm
 
             // Forcing the CommandManager to raise the RequerySuggested event
             CommandManager.InvalidateRequerySuggested();
+        }
+        private void checkOption()
+        {
+            if(cbxCameras.SelectedItem != null & prbConnection.Value == 100)
+            {
+                btnStart.Enabled = true;
+            }
+            else
+            {
+                btnStart.Enabled = false;
+            }
         }
     }
 }

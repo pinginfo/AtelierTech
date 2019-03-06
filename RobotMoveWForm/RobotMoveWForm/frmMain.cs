@@ -13,6 +13,8 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Color = System.Drawing.Color;
+//using Color = System.Windows.Media.Color;
 
 namespace RobotMoveWForm
 {
@@ -47,11 +49,19 @@ namespace RobotMoveWForm
         }
         private void sendDirectionRobot(int numberDirection)
         {
+
+            Button[] myArray = new Button[] {btn0,btn1,btn2,btn3, btn4, btn5, btn6, btn7, btn8 };
             int force = 100;
             uint time = 500;
             //0 1 2
             //3 4 5
             //6 7 8
+
+            for (int i = 0; i < myArray.Length; i++)
+            {
+                changeColor(myArray[i], Color.FromKnownColor(KnownColor.Control));
+            }
+
             switch (numberDirection)
             {
                 case 0:
@@ -81,6 +91,12 @@ namespace RobotMoveWForm
                 default:
                     break;
             }
+            changeColor(myArray[numberDirection], Color.Red);
+        }
+        private void changeColor(Button btn, Color newColor)
+        {
+            btn.BackColor = newColor;
+
         }
         private void FinalVideoSource_NewFrame(Object sender, NewFrameEventArgs eventArgs)
         {

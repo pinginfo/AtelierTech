@@ -80,16 +80,16 @@
             // 
             this.cbxBluetoothDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxBluetoothDevices.FormattingEnabled = true;
-            this.cbxBluetoothDevices.Location = new System.Drawing.Point(2, 138);
+            this.cbxBluetoothDevices.Location = new System.Drawing.Point(40, 138);
             this.cbxBluetoothDevices.Name = "cbxBluetoothDevices";
-            this.cbxBluetoothDevices.Size = new System.Drawing.Size(221, 21);
+            this.cbxBluetoothDevices.Size = new System.Drawing.Size(228, 21);
             this.cbxBluetoothDevices.TabIndex = 4;
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(229, 136);
+            this.btnConnect.Location = new System.Drawing.Point(274, 136);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(159, 23);
+            this.btnConnect.Size = new System.Drawing.Size(114, 23);
             this.btnConnect.TabIndex = 5;
             this.btnConnect.Text = "Connect to device";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -97,6 +97,7 @@
             // 
             // btnStart
             // 
+            this.btnStart.Enabled = false;
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.Location = new System.Drawing.Point(40, 216);
             this.btnStart.Name = "btnStart";

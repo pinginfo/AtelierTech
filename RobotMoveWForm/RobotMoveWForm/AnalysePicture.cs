@@ -29,7 +29,7 @@ namespace RobotMoveWForm
         private int _minPixelDetect;
         private string[] _directionName = new string[] { "Haut à gauche", "Haut", "Haut à droite", "Gauche", "Milieu", "Droite", "Bas à gauche", "Bas", "Bas à droite" };
 
-        private Image<Bgr, byte> PictureInput { get => pictureInput; set => pictureInput = Image<Bgr, byte>(new Bitmap((Image)value, this._size)); }
+        private Image<Bgr, byte> PictureInput { get => pictureInput; set => pictureInput = value; }
         #endregion
 
         #region Constructor
@@ -49,6 +49,15 @@ namespace RobotMoveWForm
         #endregion
 
         #region methods
+        /// <summary>
+        /// Method for update the picture to analyse
+        /// </summary>
+        /// <param name="picture">new picture in Bitmap</param>
+        public Image<Bgr, byte> setPicture(Bitmap picture)
+        {
+            return new Image<Bgr, byte>(new Bitmap((Image)picture, this._size));
+        }
+
         /// <summary>
         /// Method for transforming the image into black and white
         /// </summary>
@@ -138,7 +147,7 @@ namespace RobotMoveWForm
         /// <returns>All info from the picture</returns>
         public PictureData getDirection(Bitmap picture)
         {
-            this.PictureInput = picture;
+            this.PictureInput = setPicture(picture);
             this.pictureOutput = transformPicture(this.PictureInput);
             int[] tableCell = analyseTheGrid();
             int cellUsesed = getCellUsed(tableCell);
