@@ -86,6 +86,7 @@ namespace RobotMoveWForm
                 MessageBox.Show("Please choose a device");
             }
         }
+
         private async void ConnectToRobot()
         {
             dispatcherTimer.Start();
@@ -136,6 +137,7 @@ namespace RobotMoveWForm
             // Forcing the CommandManager to raise the RequerySuggested event
             CommandManager.InvalidateRequerySuggested();
         }
+
         private void checkOption()
         {
             if(cbxCameras.SelectedItem != null & prbConnection.Value == 100)

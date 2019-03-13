@@ -33,6 +33,9 @@ namespace RobotMoveWForm
             _COMPort = COMPort;
         }
 
+        /// <summary>
+        /// Disconnects the bluetooth connection
+        /// </summary>
         public void Disconnect()
         {
             if (_brick != null)
@@ -42,6 +45,10 @@ namespace RobotMoveWForm
             }
         }
 
+        /// <summary>
+        /// Initializes the robot with the COMPort
+        /// </summary>
+        /// <returns></returns>
         public async Task Initialize()
         {
             _brick = new Brick(new BluetoothCommunication(_COMPort));
@@ -61,7 +68,11 @@ namespace RobotMoveWForm
             }
         }
         
-
+        /// <summary>
+        /// Send command to move via the pre-established connection
+        /// </summary>
+        /// <param name="force"></param>
+        /// <param name="timeMs"></param>
         public void Move(int force, uint timeMs)
         {
             if (_connected)
@@ -76,7 +87,7 @@ namespace RobotMoveWForm
         }
 
         /// <summary>
-        /// Turn by specifiying the speed of both motors
+        /// Send a command to turn by specifiying the speed of both motors via the pre-established connection
         /// </summary>
         public void Turn(int leftMotorSpeed, int rightMotorSpeed)
         {
