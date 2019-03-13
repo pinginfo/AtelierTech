@@ -17,19 +17,12 @@ namespace RobotMoveWForm
         public bool Connected { get => _connected; }
 
         /// <summary>
-        /// Creates a basic robot instance
-        /// </summary>
-        public Robot()
-        {
-            _connected = false;
-        }
-
-        /// <summary>
         /// Creates the robot instance and initialize it directly
         /// </summary>
         /// <param name="COMPort">COM Port of the robot bluetooth interface. Ex : "COM5"</param>
-        public Robot(string COMPort) : base()
+        public Robot(string COMPort)
         {
+            _connected = false;
             _COMPort = COMPort;
         }
 
